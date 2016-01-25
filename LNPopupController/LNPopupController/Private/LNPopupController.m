@@ -315,8 +315,25 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 	
 	_popupControllerState = LNPopupPresentationStateTransitioning;
 	_popupControllerTargetState = state;
+	CGFloat dampingToUse;
+	CGFloat durationToUse;
 	
-	[UIView animateWithDuration:animated ? 0.5 : 0.0 delay:0.0 usingSpringWithDamping:500 initialSpringVelocity:0 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionAllowAnimatedContent animations:^
+	switch (_popupControllerTargetState) {
+		case LNPopupPresentationStateOpen:
+			dampingToUse = 0.75;
+			durationToUse = 0.5;
+			break;
+		case LNPopupPresentationStateClosed:
+			dampingToUse = 0.8;
+			durationToUse = 0.5;
+			break;
+		default:
+			dampingToUse = 1;
+			durationToUse = 0.5;
+			break;
+	}
+	
+	[UIView animateWithDuration:animated ? durationToUse : 0.0 delay:0.0 usingSpringWithDamping:dampingToUse initialSpringVelocity:0 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionAllowAnimatedContent animations:^ // open/close popup
 	{
 		if(state == LNPopupPresentationStateClosed)
 		{
@@ -619,7 +636,7 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 		
 		[self _reconfigureContent];
 		
-		[UIView animateWithDuration:animated ? 0.5 : 0.0 delay:0.0 usingSpringWithDamping:500 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^
+		[UIView animateWithDuration:animated ? 0.6 : 0.0 delay:0.0 usingSpringWithDamping:0.4 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^ // show popup
 		{
 			CGRect barFrame = _popupBar.frame;
 			barFrame.size.height = LNPopupBarHeight;
@@ -673,7 +690,7 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 	{
 		void (^dismissalAnimationCompletionBlock)() = ^
 		{
-			[UIView animateWithDuration:animated ? 0.5 : 0.0 delay:0.0 usingSpringWithDamping:500 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^
+			[UIView animateWithDuration:animated ? 0.5 : 0.0 delay:0.0 usingSpringWithDamping:1 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^ // hide popup
 			{
 				CGRect barFrame = _popupBar.frame;
 				barFrame.size.height = 0;
