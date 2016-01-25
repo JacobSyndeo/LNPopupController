@@ -26,7 +26,7 @@
 	
 	if(self)
 	{
-		_effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+		_effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
 		_effectView.userInteractionEnabled = NO;
 		[self addSubview:_effectView];
 		
@@ -46,12 +46,6 @@
 		[self addTarget:self action:@selector(_didTouchUp) forControlEvents:UIControlEventTouchUpInside];
 		[self addTarget:self action:@selector(_didTouchUp) forControlEvents:UIControlEventTouchUpOutside];
 		[self addTarget:self action:@selector(_didTouchCancel) forControlEvents:UIControlEventTouchCancel];
-		
-		self.layer.shadowColor = [UIColor blackColor].CGColor;
-		self.layer.shadowOpacity = 0.1;
-		self.layer.shadowRadius = 3.0;
-		self.layer.shadowOffset = CGSizeMake(0, 0);
-		self.layer.masksToBounds = NO;
 		
 		[self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		
@@ -123,6 +117,12 @@
 	CGRect imageFrame = self.imageView.frame;
 	imageFrame.origin.y += 0.5;
 	self.imageView.frame = imageFrame;
+	
+	self.layer.shadowColor = [UIColor blackColor].CGColor;
+	self.layer.shadowOpacity = 0.2;
+	self.layer.shadowRadius = 3.0;
+	self.layer.shadowOffset = CGSizeMake(0, 0);
+	self.layer.masksToBounds = NO;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
