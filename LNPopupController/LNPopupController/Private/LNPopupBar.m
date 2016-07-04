@@ -7,7 +7,7 @@
 //
 
 #import "LNPopupBar+Private.h"
-#import "__MarqueeLabel.h"
+#import "MarqueeLabel.h"
 
 const CGFloat LNPopupBarHeight = 40.0;
 
@@ -18,8 +18,8 @@ const NSInteger LNBarStyleInherit = -1;
 	UIToolbar* _backgroundView;
 	BOOL _delaysBarButtonItemLayout;
 	UIView* _titlesView;
-	__MarqueeLabel* _titleLabel;
-	__MarqueeLabel* _subtitleLabel;
+	MarqueeLabel* _titleLabel;
+	MarqueeLabel* _subtitleLabel;
 	BOOL _needsLabelsLayout;
 	
 	UIColor* _userTintColor;
@@ -224,13 +224,16 @@ const NSInteger LNBarStyleInherit = -1;
 	[self _setNeedsTitleLayout];
 }
 
-- (__MarqueeLabel*)_newMarqueeLabel
+- (MarqueeLabel*)_newMarqueeLabel
 {
-	__MarqueeLabel* rv = [[__MarqueeLabel alloc] initWithFrame:_titlesView.bounds rate:20 andFadeLength:10];
+	MarqueeLabel* rv = [[MarqueeLabel alloc] initWithFrame:_titlesView.bounds rate:20 andFadeLength:10];
+	rv.font = [UIFont systemFontOfSize:12];
 	rv.leadingBuffer = 5.0;
 	rv.trailingBuffer = 15.0;
-	rv.animationDelay = 2.0;
+	rv.animationDelayBefore = 2.0;
+	rv.animationDelayAfter = 0.0;
 	rv.marqueeType = MLContinuous;
+	rv.textAlignment = NSTextAlignmentCenter;
 	return rv;
 }
 

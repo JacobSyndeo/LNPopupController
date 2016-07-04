@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <LNPopupController/LNPopupItem.h>
+#import "LNPopupItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -8,6 +8,7 @@
 
 #import "LNPopupController.h"
 #import "LNPopupItem+Private.h"
+#import "NTSongDetailViewController.h"
 @import ObjectiveC;
 
 static const CFTimeInterval LNPopupBarGesturePanThreshold = 0.1;
@@ -311,6 +312,7 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 		
 		[_popupBar removeGestureRecognizer:self.popupContentView.popupInteractionGestureRecognizer];
 		[contentController.viewForPopupInteractionGestureRecognizer addGestureRecognizer:self.popupContentView.popupInteractionGestureRecognizer];
+		[self.popupContentView.popupInteractionGestureRecognizer setDelegate:(NTSongDetailViewController *)contentController];
 	}
 	
 	_popupControllerState = LNPopupPresentationStateTransitioning;
@@ -636,11 +638,14 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 		
 		[self _reconfigureContent];
 		
-		[UIView animateWithDuration:animated ? 0.6 : 0.0 delay:0.0 usingSpringWithDamping:0.4 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^ // show popup
+		self.popupContentView.alpha = 0; // Prepare for fade-in
+		
+		[UIView animateWithDuration:animated ? 0.5 : 0.0 delay:0.0 usingSpringWithDamping:0.75 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^ // show popup
 		{
 			CGRect barFrame = _popupBar.frame;
 			barFrame.size.height = LNPopupBarHeight;
 			_popupBar.frame = barFrame;
+			self.popupContentView.alpha = 1;
 			
 			_LNPopupSupportFixInsetsForViewController(_containerController, YES);
 			
@@ -695,6 +700,7 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 				CGRect barFrame = _popupBar.frame;
 				barFrame.size.height = 0;
 				_popupBar.frame = barFrame;
+				self.popupContentView.alpha = 0;
 				
 				_LNPopupSupportFixInsetsForViewController(_containerController, YES);
 			} completion:^(BOOL finished)
