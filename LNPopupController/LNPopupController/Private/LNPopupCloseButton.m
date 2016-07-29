@@ -50,6 +50,8 @@
 		[self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		
 		[self setImage:[UIImage imageNamed:@"DismissChevron" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+		
+		[self setAccessibilityLabel:@"Minimize"];
 	}
 	
 	return self;
