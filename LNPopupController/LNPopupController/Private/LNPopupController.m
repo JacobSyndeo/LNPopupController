@@ -83,7 +83,7 @@ static const CFTimeInterval LNPopupBarGestureHeightPercentThreshold = 0.2;
 
 - (UIView *)containerView
 {
-	return nil;
+	return [[UIView alloc] init];
 }
 
 - (CGAffineTransform)targetTransform
